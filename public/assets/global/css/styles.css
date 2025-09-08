@@ -1,0 +1,49 @@
+:root {
+  --primary: #01347c;
+  --secondary: #b70a0e;
+}
+@font-face {
+  font-family: Iransans;
+  src: url("../fonts/iransans/eot/IRANSansWeb.eot") format("eot"),
+  url("../fonts/iransans/ttf/IRANSansWeb.ttf") format("ttf"),
+  url("../fonts/iransans/woff/IRANSansWeb.woff") format("woff");
+}
+
+@font-face {
+  font-family: IransansFaNum;
+  src: url("../fonts/iransans/eot/IRANSansWeb(FaNum).eot") format("eot"),
+  url("../fonts/iransans/ttf/IRANSansWeb(FaNum).ttf") format("ttf"),
+  url("../fonts/iransans/woff/IRANSansWeb(FaNum).woff") format("woff");
+}
+
+body {
+  font-family: IransansFaNum, Iransans ,sans-serif;
+}
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after,
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+  font-size: 22px;
+
+}
+
+.swiper-button-prev,
+.swiper-rtl .swiper-button-next {
+  left: -7px !important;
+  right: auto !important;
+}
+
+.swiper-button-next,
+.swiper-rtl .swiper-button-prev {
+  right: -7px !important;
+  left: auto !important;
+}
+#categoriesSwiper .swiper-slide , .adsSwiper .swiper-slide{
+  padding:15px !important;
+}
+/* مخفی کردن ضربدر پیش‌فرض مرورگر */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}

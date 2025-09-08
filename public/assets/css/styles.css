@@ -1,0 +1,17 @@
+@font-face {
+  font-family: Iransans;
+  src: url("../fonts/iransans/eot/IRANSansWeb.eot") format("eot"),
+  url("../fonts/iransans/ttf/IRANSansWeb.ttf") format("ttf"),
+  url("../fonts/iransans/woff/IRANSansWeb.woff") format("woff");
+}
+
+@font-face {
+  font-family: IransansFaNum;
+  src: url("../fonts/iransans/eot/IRANSansWeb(FaNum).eot") format("eot"),
+  url("../fonts/iransans/ttf/IRANSansWeb(FaNum).ttf") format("ttf"),
+  url("../fonts/iransans/woff/IRANSansWeb(FaNum).woff") format("woff");
+}
+
+body {
+  font-family: IransansFaNum, Iransans ,sans-serif;
+}
