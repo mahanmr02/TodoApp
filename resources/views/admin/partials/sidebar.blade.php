@@ -11,16 +11,16 @@
         <p class="text-sm text-gray-400 mt-1">مدیریت کارهای روزانه</p>
     </div>
         <nav class="mt-8">
-            <a href="#" class="block py-3 px-6 text-sm font-medium hover:bg-gray-800 transition-colors duration-200 rounded-md mx-2 text-blue-400">
+            <a href="{{route('admin.dashboard')}}" class="block py-3 px-6 text-sm font-medium hover:bg-gray-800 transition-colors duration-200 rounded-md mx-2 text-blue-400">
                 <div class="flex items-center">
                     <svg class="w-6 h-6 ml-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 12C12 11.4477 12.4477 11 13 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H13C12.4477 20 12 19.5523 12 19V12Z" stroke="#d1d5db" stroke-width="2" stroke-linecap="round"></path> <path d="M4 5C4 4.44772 4.44772 4 5 4H8C8.55228 4 9 4.44772 9 5V19C9 19.5523 8.55228 20 8 20H5C4.44772 20 4 19.5523 4 19V5Z" stroke="#d1d5db" stroke-width="2" stroke-linecap="round"></path> <path d="M12 5C12 4.44772 12.4477 4 13 4H19C19.5523 4 20 4.44772 20 5V7C20 7.55228 19.5523 8 19 8H13C12.4477 8 12 7.55228 12 7V5Z" stroke="#d1d5db" stroke-width="2" stroke-linecap="round"></path> </g></svg>
                     داشبورد
                 </div>
             </a>
-            <a href="#" class="block py-3 px-6 text-sm font-medium text-gray-300 hover:bg-gray-800 transition-colors duration-200 rounded-md mx-2">
+            <a href="{{route('admin.lists.index')}}" class="block py-3 px-6 text-sm font-medium text-gray-300 hover:bg-gray-800 transition-colors duration-200 rounded-md mx-2">
                 <div class="flex items-center">
                     <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M17 14h.01"></path></svg>
-                    کارها
+                    فهرست ها
                 </div>
             </a>
             <a href="#" class="block py-3 px-6 text-sm font-medium text-gray-300 hover:bg-gray-800 transition-colors duration-200 rounded-md mx-2">
