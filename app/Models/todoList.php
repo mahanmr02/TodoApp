@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class todoList extends Model
+class TodoList extends Model
 {
     use SoftDeletes;
 
@@ -14,6 +14,10 @@ class todoList extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function jobs(){
+        return $this->hasMany(TodoJob::class,'todo_list_id');
     }
 
     public function scopeFilter($query, $filters)

@@ -224,6 +224,8 @@ return [
 		"sheba_number" => "شماره شبا",
 		"iban" => "شماره شبا",
 		"accountـnumber" => "شماره حساب",
-        'user_id' => 'کاربر'
+        'user_id' => 'کاربر',
+        'priority' => 'سطح',
+        'status' => 'وضعیت'
     ],
 ];

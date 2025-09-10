@@ -1,38 +1,12 @@
 @extends('admin.layout')
 @section('title','ایجاد فهرست‌‌')
 @section('content')
-    <div class="p-6">
-        <nav class="flex mb-6 text-sm text-gray-600 dark:text-gray-400" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 rtl:space-x-reverse md:space-x-2">
-                <li>
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center hover:text-blue-600">
-                        <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7
-                            7a1 1 0 001.414 1.414L4 10.414V17a1
-                            1 0 001 1h2a1 1 0 001-1v-2a1
-                            1 0 011-1h2a1 1 0 011 1v2a1
-                            1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1
-                            1 0 001.414-1.414l-7-7z" />
-                        </svg>
-                        پنل ادمین
-                    </a>
-                </li>
-                <li class="flex items-center">
-                    <svg class="w-3 h-3 mx-2 text-gray-400 rtl:rotate-180" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 9 4-4-4-4" />
-                    </svg>
-                    <a href="{{ route('admin.lists.index') }}" class="hover:text-blue-600">فهرست‌‌ها</a>
-                </li>
-                <li class="flex items-center">
-                    <svg class="w-3 h-3 mx-2 text-gray-400 rtl:rotate-180" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 9 4-4-4-4" />
-                    </svg>
-                    <span class="text-gray-500">ایجاد فهرست‌‌ جدید</span>
-                </li>
-            </ol>
-        </nav>
+    <div class="">
+        <x-breadcrumb :items="[
+            ['label' => 'پنل ادمین', 'url' => route('admin.dashboard')],
+            ['label' => 'فهرست‌ها', 'url' => route('admin.lists.index')],
+            ['label' => 'ایجاد فهرست']
+        ]" />
 
         <div class="bg-white rounded-lg p-6">
             <h1 class="text-2xl font-bold mb-6">ایجاد فهرست‌‌ جدید</h1>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ url('/assets/global/css/flowbite.min.css') }}">
     <link rel="icon" href="{{ URL('assets/global/images/icon.png') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.3.3/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
 
     <!-- Flowbite CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.css" rel="stylesheet">
@@ -35,6 +36,8 @@
         @include('admin.partials.footer')
     </div>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+
     <script>
         const sidebar = document.getElementById('sidebar');
         const openSidebarButton = document.getElementById('open-sidebar');
