@@ -59,8 +59,10 @@ class TodoListController extends Controller
     }
 
     public function destroy(TodoList $todoList){
-        $todoList->delete();
-
+        $todoList->jobs()->delete();
+        if($todoList){
+            $todoList->delete();
+        }
         return redirect()->route('admin.lists.index')->with('success','فهرست با موفقیت حذف شد.');
     }
 }
