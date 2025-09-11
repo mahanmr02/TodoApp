@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Controllers\Controller;
+use App\Models\TodoJob;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
@@ -12,7 +13,20 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+
+        $allJobs = TodoJob::latest()->get()->take(3);
+        $todayJobs = TodoJob::whereToday('created_at')->count();
+
+        $todoJobsCount = TodoJob::where('status','todo')->count();
+        $todayTodoJobsCount = TodoJob::where('status','todo')->whereToday('created_at')->count();
+
+        $doingJobsCount = TodoJob::where('status','doing')->count();
+        $todayDoingJobsCount = TodoJob::where('status','doing')->whereToday('created_at')->count();
+
+        $doneJobsCount = TodoJob::where('status','done')->count();
+        $todayDoneJobsCount = TodoJob::where('status','done')->whereToday('created_at')->count();
+
+        return view('admin.dashboard',compact('allJobs', 'todayJobs', 'todoJobsCount', 'todayTodoJobsCount', 'doingJobsCount', 'todayDoingJobsCount', 'doneJobsCount', 'todayDoneJobsCount'));
     }
 
     /**
