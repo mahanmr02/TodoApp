@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 class TodoJobController extends Controller
 {
     public function index(Request $request, TodoList $todoList){
-        $filters = $request->only(['search']);
+        $filters = $request->only(['search', 'priority', 'status']);
 
         $todoJobs = $todoList->jobs()->filter($filters)->latest()->paginate(10);
         return view('admin.lists.tasks.index',compact('todoJobs','todoList'));
