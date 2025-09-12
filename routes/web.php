@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminPanel\SettingController;
 use App\Http\Controllers\AdminPanel\TodoJobController;
 use App\Http\Controllers\AdminPanel\TodoListController;
 use App\Http\Controllers\AdminPanel\DashboardController;
@@ -10,11 +11,11 @@ use App\Http\Controllers\AdminPanel\DashboardController;
 
 
 Route::get('/', function () {
-    dd('home');
-});
+    return view('main.home');
+})->name('home');
 
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::prefix('lists')->group(function () {
@@ -35,6 +36,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
             Route::get('/change-status/{todoJob}', [TodoJobController::class, 'changeStatus'])->name('admin.lists.tasks.changeStatus');
         });
     });
+
+    Route::get('/settings', [SettingController::class,'index'])->name('admin.settings.index');
+    Route::put('/settings/update', [SettingController::class,'update'])->name('admin.settings.update');
+    Route::get('/settings/set-default', [SettingController::class,'setDefault'])->name('admin.settings.set-default');
+    Route::delete('/settings/delete-files', [SettingController::class,'deleteFiles'])->name('admin.settings.delete-files');
+
+
 });
 
 
