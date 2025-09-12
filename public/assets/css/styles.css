@@ -15,3 +15,48 @@
 body {
   font-family: IransansFaNum, Iransans ,sans-serif;
 }
+
+@keyframes fadeInUp {
+  from {
+  opacity: 0;
+  transform: translateY(30px);
+  }
+  to {
+  opacity: 1;
+  transform: translateY(0);
+  }
+  }
+  
+  @keyframes float {
+  0%, 100% {
+  transform: translateY(0px);
+  }
+  50% {
+  transform: translateY(-10px);
+  }
+  }
+  
+  .animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .animate-float {
+  animation: float 3s ease-in-out infinite;
+  }
+  
+  .gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .glass-effect {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .about-bg {
+    background-image: url('/assets/images/wwbg.gif');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
