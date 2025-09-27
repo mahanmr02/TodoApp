@@ -226,6 +226,7 @@ return [
 		"accountـnumber" => "شماره حساب",
         'user_id' => 'کاربر',
         'priority' => 'سطح',
-        'status' => 'وضعیت'
+        'status' => 'وضعیت',
+        'message' => 'پیام'
     ],
 ];

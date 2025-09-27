@@ -15,8 +15,7 @@
             <div class="animate-fadeInUp">
                 <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
                     خوش آمدید به
-                    <span
-                        class="block bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent mt-2">
+                    <span class="block bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent mt-2 py-2">
                         وب اپلیکیشن {{ $settings['product_title'] ?? 'از شنبه' }}
                     </span>
                 </h1>
@@ -24,10 +23,10 @@
                     با استفاده از این اپلیکیشن به زندگیت برنامه بده و به سوی آینده‌ای درخشان یک قدم بزرگ بردار
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <a href="{{route('app.index')}}"
                         class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-indigo-50 transform hover:scale-105 transition-all duration-300 shadow-lg flex text-center items-center justify-center">
                         شروع به کار
-                    </button>
+                    </a>
                     <button
                         class="glass-effect text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/20 transform hover:scale-105 transition-all duration-300 flex items-center justify-center">
                         بیشتر بدانید
@@ -62,16 +61,16 @@
                         <div class="text-center">
                             <div class="flex items-center justify-center mb-2">
                                 <i data-lucide="check-square" class="w-6 h-6 text-indigo-600 mr-2"></i>
-                                <div class="text-3xl font-bold text-indigo-600">۱۰۰هزار+</div>
+                                <div class="text-3xl font-bold text-indigo-600">+۱۰۰هزار</div>
                             </div>
                             <div class="text-gray-600">تسک‌های مدیریت‌شده</div>
                         </div>
                         <div class="text-center">
                             <div class="flex items-center justify-center mb-2">
                                 <i data-lucide="user-check" class="w-6 h-6 text-indigo-600 mr-2"></i>
-                                <div class="text-3xl font-bold text-indigo-600">۹۵٪</div>
+                                <div class="text-3xl font-bold text-indigo-600">+هزار</div>
                             </div>
-                            <div class="text-gray-600">رضایت کاربران</div>
+                            <div class="text-gray-600">تعداد کاربران کاربران</div>
                         </div>
                     </div>
                 </div>
@@ -142,7 +141,13 @@
                     آماده کمک به شما هستیم. فرم زیر را پر کنید یا از اطلاعات تماس ما استفاده کنید.
                 </p>
             </div>
+            @if (session('success'))
+                <x-alert type="success" :message="session('success')" />
+            @endif
 
+            @if (session('error'))
+                <x-alert type="error" :message="session('error')" />
+            @endif
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div>
                     <h3 class="text-2xl font-semibold mb-6 flex items-center">
@@ -164,20 +169,29 @@
                         </div>
                     </div>
                 </div>
-
                 <div>
-                    <form class="space-y-6">
+                    <form action="{{ route('home.send-message') }}" class="space-y-6" method="POST">
+                        @csrf
                         <div>
-                            <input type="text" placeholder="نام و نام خانوادگی"
+                            <input type="text" placeholder="نام و نام خانوادگی" name="name"
                                 class="w-full px-4 py-3 rounded-lg bg-indigo-800 border border-indigo-700 text-white placeholder-indigo-300 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                            @error('name')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
-                            <input type="email" placeholder="ایمیل"
+                            <input type="text" placeholder="ایمیل" name="email"
                                 class="w-full px-4 py-3 rounded-lg bg-indigo-800 border border-indigo-700 text-white placeholder-indigo-300 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                            @error('email')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
-                            <textarea rows="4" placeholder="پیام شما"
+                            <textarea rows="4" placeholder="پیام شما" name="message"
                                 class="w-full px-4 py-3 rounded-lg bg-indigo-800 border border-indigo-700 text-white placeholder-indigo-300 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"></textarea>
+                            @error('message')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <button type="submit"
                             class="w-full bg-white text-indigo-900 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-50 transform hover:scale-105 transition-all duration-300 flex items-center justify-center">

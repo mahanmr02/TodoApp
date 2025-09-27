@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\App\AppController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Main\HomeController;
+use App\Http\Controller\App\AppListController;
+use App\Http\Controller\App\AppTaskController;
 use App\Http\Controllers\AdminPanel\SettingController;
 use App\Http\Controllers\AdminPanel\TodoJobController;
 use App\Http\Controllers\AdminPanel\TodoListController;
@@ -12,7 +15,24 @@ use App\Http\Controllers\AdminPanel\DashboardController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/send-message', [HomeController::class,'sendMessage'])->name('home.send-message');
 
+Route::prefix('app')->middleware(['auth'])->group(function(){
+    Route::get('/',[AppController::class,'index'])->name('app.index');
+    Route::post('/store-list',[AppController::class,'storeList'])->name('app.store-list');
+    Route::delete('/destroy-list/{list}',[AppController::class,'destroyList'])->name('app.destroy-list');
+
+
+    Route::prefix('lists')->group(function(){
+        Route::prefix('tasks')->group(function(){
+            Route::get('/',[AppTaskController::class,'index'])->name('app.lists.tasks.index');
+        });
+        Route::get('show/{list}',[AppListController::class,'index'])->name('app.lists.index');
+        Route::post('/store',[AppListController::class,'store'])->name('app.lists.store');
+
+
+    });
+});
 
 Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -43,5 +63,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
 });
 
 
-
+Route::get('/z',function(){
+    Auth::logout();
+});
 require __DIR__ . '/auth.php';

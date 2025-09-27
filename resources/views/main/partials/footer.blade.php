@@ -36,7 +36,7 @@
             <div>
                 <h4 class="text-lg font-semibold mb-4">درباره ما</h4>
                 <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-white transition-colors">درباره {{ $settings['product_title'] ?? 'از شنبه' }}</a></li>
+                    <li><a href="#about" class="hover:text-white transition-colors">درباره {{ $settings['product_title'] ?? 'از شنبه' }}</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">همکاری با ما</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">وبلاگ</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">حریم خصوصی</a></li>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 TodoApp. تمامی حقوق محفوظ است.</p>
+            <p>&copy; 2025 {{ $settings['product_title'] ?? 'از شنبه' }}. تمامی حقوق محفوظ است.</p>
         </div>
     </div>
 </footer>
