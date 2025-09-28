@@ -28,9 +28,8 @@ Route::prefix('app')->middleware(['auth'])->group(function(){
             Route::get('/',[AppTaskController::class,'index'])->name('app.lists.tasks.index');
         });
         Route::get('show/{list}',[AppListController::class,'index'])->name('app.lists.index');
-        Route::post('/store',[AppListController::class,'store'])->name('app.lists.store');
-
-
+        Route::put('/update/{list}',[AppListController::class,'update'])->name('app.lists.update');
+        Route::delete('/delete/{list}',[AppListController::class,'destroy'])->name('app.lists.destroy');
     });
 });
 

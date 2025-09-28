@@ -65,7 +65,7 @@
             </li>
         @endif
         <li class="text-sm text-purple-300">
-            <a href="#" class="block p-2 rounded-lg text-purple-300 hover:text-purple-500">مشاهده همه</a>
+            <a href="{{route('app.lists.tasks.index')}}" class="block p-2 rounded-lg text-purple-300 hover:text-purple-500">مشاهده همه</a>
         </li>
     </ul>
 </aside>

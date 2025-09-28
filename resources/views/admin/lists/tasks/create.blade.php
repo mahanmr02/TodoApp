@@ -24,7 +24,7 @@
                         @enderror
                     </div>
                     <div>
-                        <label for="priority" class="block text-sm font-medium text-gray-700">تاریخ سررسید</label>
+                        <label for="due_date" class="block text-sm font-medium text-gray-700">تاریخ سررسید</label>
                         <input type="text" name="due_date" data-jdp
                             class="mt-1 h-10 bg-gray-200 border-none block w-full rounded-md shadow-sm focus:border-gray-400 focus:ring-gray-400">
                         @error('user_id')

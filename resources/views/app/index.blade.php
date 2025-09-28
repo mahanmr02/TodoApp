@@ -15,7 +15,6 @@
             <p>"انجام دادن کارهای کوچک، بهتر از رویابافی کارهای بزرگ است."</p>
             <small class="text-sm font-light text-indigo-400 block mt-4">تمرکز بر کارهای امروز</small>
         </div>
-
         <div class="block bg-white border shadow-teal-300 shadow-md max-w-2xl w-full p-6 rounded-lg ">
             <h1
                 class="text-4xl text-center  font-extrabold py-3 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-blue-500">

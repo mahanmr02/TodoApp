@@ -11,7 +11,6 @@ class AppController extends Controller
     public function index(){
         if(auth()->check()){
             if(auth()->user()->lists()->count() > 0){
-                dd('hi');
                 return redirect()->route('app.lists.tasks.index');
             }else{
                 return view('app.index');

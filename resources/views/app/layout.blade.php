@@ -7,47 +7,13 @@
     <meta name="csrf-token" content="mock-csrf-token-12345">
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Vazirmatn:wght@100..900&display=swap');
-
-        body {
-            font-family: 'Vazirmatn', 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
-
-        .sidebar {
-            width: 280px;
-            background-color: #ffffff;
-            border-left: 1px solid #e5e7eb;
-        }
-
-        .main-content {
-            flex-grow: 1;
-            padding: 40px;
-        }
-
-        .hero-text {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: #4b5563;
-            text-align: center;
-            margin: 50px 0 80px 0;
-            line-height: 1.6;
-        }
-
-        .todo-item {
-            transition: all 0.3s ease;
-        }
-
-        .completed .todo-title {
-            text-decoration: line-through;
-            color: #9ca3af;
-        }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/app/styles.css') }}">
 </head>
 
-<body class="bg-gray-100 flex flex-col md:flex-row min-h-screen text-gray-800">
+<body class="bg-gray-100 flex flex-col md:flex-row min-h-screen text-gray-800 max-h-screen">
     @include('app.partials.sidebar')
     <div class="flex-1 flex flex-col overflow-hidden">
         @include('app.partials.header')
@@ -57,7 +23,133 @@
     </div>
 
 
+    <div id="app-delete-modal-container"
+        class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 hidden"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div
+                class="inline-block align-middle bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                حذف آیتم
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    آیا از حذف این مورد اطمینان دارید؟ این عمل غیرقابل بازگشت است.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <form id="app-delete-form" method="POST" action="">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mr-3 sm:w-auto sm:text-sm">
+                            حذف
+                        </button>
+                    </form>
+                    <button type="button"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                        onclick="closeAppDeleteModal()">
+                        انصراف
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.js"></script>
+
+    <div id="taskModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md">
+            <h3 class="text-lg font-bold mb-4">ایجاد تسک جدید</h3>
+            <form id="taskForm" action="#" method="POST">
+                @csrf
+                <input type="hidden" name="list_id" id="taskListId">
+                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div>
+                        <label for="list_name" class="block text-sm font-medium text-gray-700 text-right">
+                            عنوان تسک
+                        </label>
+                        <input type="text" name="name" id="list_name"
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right"
+                            value="">
+                    </div>
+                    <div>
+                        <label for="due_date" class="block text-sm font-medium text-gray-700 text-right">
+                            تاریخ سررسید
+                        </label>
+                        <input type="text" name="due_date" data-jdp
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right">
+                    </div>
+                </div>
+                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div>
+                        <label for="priority" class="block text-sm font-medium text-gray-700 text-right">
+                            میزان ارجحیت
+                        </label>
+                        <select name="priority" id="priority"
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right">
+                            <option value="low">پایین</option>
+                            <option value="medium">متوسط</option>
+                            <option value="high">بالا</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700 text-right">
+                            وضعیت
+                        </label>
+                        <select name="status" id="status"
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right">
+                            <option value="todo">مقرر شده</option>
+                            <option value="doing">در حال انجام</option>
+                            <option value="done">انجام شده</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <label for="list_description" class="block text-sm font-medium text-gray-700 text-right">
+                        توضیحات تسک
+                    </label>
+                    <textarea name="description" id="" cols="30" rows="4"
+                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 mt-2">
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">ذخیره</button>
+                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border rounded">لغو</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+
+    <script>
+        jalaliDatepicker.startWatch({
+            "time": true,
+            "hasSecond": false
+        });
+    </script>
+    <script>
+        function openTaskModal(listId) {
+            document.getElementById('taskListId').value = listId;
+            document.getElementById('taskModal').classList.remove('hidden');
+        }
+
+        function closeTaskModal() {
+            document.getElementById('taskModal').classList.add('hidden');
+        }
+    </script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const openSidebarButton = document.getElementById('open-sidebar');
@@ -440,7 +532,6 @@
         });
     </script>
     <script>
-
         function openAppDeleteModal(route) {
             const modal = document.getElementById('app-delete-modal-container');
             const form = document.getElementById('app-delete-form');
@@ -468,6 +559,8 @@
             });
         }
     </script>
+
+
 </body>
 
 </html>
