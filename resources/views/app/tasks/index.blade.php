@@ -14,7 +14,9 @@
                 <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-3 hover:bg-gray-50 transition-all">
                     <div class="flex justify-between border-b border-gray-300 py-2">
                         <div>
-                            <h1 class="font-bold text-2xl">{{ $list->name }}</h1>
+                            <a href="{{ route('app.lists.show', $list) }}">
+                                <h1 class="font-bold text-2xl">{{ $list->name }}</h1>
+                            </a>
                         </div>
                         <div x-data="{ open: false }" @click.outside="open = false" class="dropdown relative">
                             <label @click="open = !open" tabindex="0" class="border-none bg-gray-50 cursor-pointer">
@@ -74,8 +76,14 @@
 
                     @if ($list->jobs->count() > 0)
                         @foreach ($list->jobs as $task)
-                            <div
-                                class="flex my-1 p-2 @if ($task->priority == 'low') hover:bg-green-50 text-green-500 @elseif($task->priority == 'medium') hover:bg-yellow-50 text-yellow-500 @else hover:bg-red-50 text-red-500 @endif hover:bg-gray-100 rounded-lg justify-between items-center">
+                            <div class="flex my-1 p-2 cursor-pointer 
+                        @if ($task->priority == 'low') hover:bg-green-50 text-green-500 
+                        @elseif($task->priority == 'medium') hover:bg-yellow-50 text-yellow-500 
+                        @else hover:bg-red-50 text-red-500 @endif 
+                        hover:bg-gray-100 rounded-lg justify-between items-center task-item"
+                                onclick="openEditModal({{ json_encode($task) }}, this)"
+                                data-jalali-due-date="{{ $task->due_date ? jalaliDate($task->due_date, 'Y/m/d H:i') : '' }}">
+
                                 <div class="flex gap-1 text-sm">
                                     <svg class="w-6 h-6" viewBox="0 -0.5 25 25" fill="currentColor"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -89,18 +97,20 @@
                                     </svg>
                                     {{ Str::limit($task->title, 10) }}
                                 </div>
+
                                 <div>
                                     <span class="text-gray-300 text-xs italic">
-                                        {{ 'تا ' . jalalidate($task->due_at, 'd-m-Y H:i') ?? '-----' }}
+                                        {{ $task->due_date ? 'تا ' . jalaliDate($task->due_date, 'd-m-Y H:i') : '-----' }}
                                     </span>
                                 </div>
-                                <a href="#" class="{{ $task->status_color }} p-2 rounded-md">
+
+                                <a href="{{ route('app.lists.tasks.change-status', $task) }}"
+                                    onclick="event.stopPropagation()" class="{{ $task->status_color }} p-2 rounded-md">
                                     <div class="flex gap-1">
                                         <div class="text-sm">{!! $task->status_icon !!}</div>
                                         <div class="text-sm"><span>{{ $task->status_label }}</span></div>
                                     </div>
                                 </a>
-
                             </div>
                         @endforeach
                     @else
@@ -110,7 +120,7 @@
                             </span>
                         </div>
                     @endif
-                    <button type="button" onclick="openTaskModal({{ $list->id }})"
+                    <button type="button" onclick="openModal({{ $list->id }})"
                         class="flex w-full gap-2 items-center justify-center rounded-lg p-3 text-gray-400 hover:text-gray-600">
                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
                             <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -280,5 +290,124 @@
 
     </div>
 
+
+    <div id="taskModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md">
+            <h3 id="taskModalTitle" class="text-lg font-bold mb-4">ایجاد تسک جدید</h3>
+
+            <form id="taskForm" method="POST">
+                @csrf
+                <input type="hidden" name="todo_list_id" id="taskListId">
+                <div id="formMethod"></div>
+
+                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 text-right">
+                            عنوان تسک <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="title" id="task_title"
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 text-right">تاریخ سررسید</label>
+                        <input type="text" name="due_date" id="task_due_date" data-jdp value=""
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                    </div>
+                </div>
+
+                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 text-right">میزان ارجحیت <span
+                                class="text-red-500">*</span></label>
+                        <select name="priority" id="task_priority"
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                            <option class="text-green-600 bg-green-100" value="low">پایین</option>
+                            <option class="text-yellow-600 bg-yellow-100" value="medium">متوسط</option>
+                            <option class="text-red-600 bg-red-100" value="high">بالا</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 text-right">وضعیت <span
+                                class="text-red-500">*</span></label>
+                        <select name="status" id="task_status"
+                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                            <option value="todo">مقرر شده</option>
+                            <option class="text-yellow-600 bg-yellow-100" value="doing">در حال انجام</option>
+                            <option class="text-green-600 bg-green-100" value="done">انجام شده</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <label class="block text-sm font-medium text-gray-700 text-right">توضیحات تسک</label>
+                    <textarea name="description" id="task_description" cols="30" rows="4"
+                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 mt-2">
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">ذخیره</button>
+                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border rounded">لغو</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+@endsection
+
+@section('script')
+    <script type="text/javascript" src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+
+    <script>
+        jalaliDatepicker.startWatch({
+            "time": true,
+            "hasSecond": false
+        });
+    </script>
+    <script>
+        const modal = document.getElementById('taskModal');
+        const form = document.getElementById('taskForm');
+        const modalTitle = document.getElementById('taskModalTitle');
+        const formMethod = document.getElementById('formMethod');
+        const updateRouteTemplate = "{{ route('app.lists.tasks.update', ['task' => 'taskId']) }}";
+
+        function openModal(listId) {
+            form.action = "{{ route('app.lists.tasks.store') }}";
+            formMethod.innerHTML = ""; // پاک کردن PUT
+            modalTitle.innerText = "ایجاد تسک جدید";
+
+            // خالی کردن فیلدها
+            document.getElementById('taskListId').value = listId;
+            document.getElementById('task_title').value = "";
+            document.getElementById('task_due_date').value = "";
+            document.getElementById('task_priority').value = "low";
+            document.getElementById('task_status').value = "todo";
+            document.getElementById('task_description').value = "";
+
+            modal.classList.remove('hidden');
+        }
+
+        function openEditModal(task, clickedElement) {
+            form.action = updateRouteTemplate.replace('taskId', task.id);
+            formMethod.innerHTML = '@method('PUT')';
+            modalTitle.innerText = "ویرایش تسک";
+
+            const jalaliFormattedDate = clickedElement.getAttribute('data-jalali-due-date');
+
+
+            document.getElementById('taskListId').value = task.todo_list_id;
+            document.getElementById('task_title').value = task.title;
+            document.getElementById('task_due_date').value = jalaliFormattedDate;
+            document.getElementById('task_priority').value = task.priority;
+            document.getElementById('task_status').value = task.status;
+            document.getElementById('task_description').value = task.description ?? "";
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeTaskModal() {
+            modal.classList.add('hidden');
+        }
+    </script>
 
 @endsection

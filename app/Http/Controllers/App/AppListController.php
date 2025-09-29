@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controller\App;
+namespace App\Http\Controllers\App;
 
 use App\Models\TodoList;
 use Illuminate\Http\Request;

@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\App\AppController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Main\HomeController;
-use App\Http\Controller\App\AppListController;
-use App\Http\Controller\App\AppTaskController;
+use App\Http\Controllers\App\AppListController;
+use App\Http\Controllers\App\AppTaskController;
 use App\Http\Controllers\AdminPanel\SettingController;
 use App\Http\Controllers\AdminPanel\TodoJobController;
 use App\Http\Controllers\AdminPanel\TodoListController;
@@ -15,21 +15,24 @@ use App\Http\Controllers\AdminPanel\DashboardController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/send-message', [HomeController::class,'sendMessage'])->name('home.send-message');
+Route::post('/send-message', [HomeController::class, 'sendMessage'])->name('home.send-message');
 
-Route::prefix('app')->middleware(['auth'])->group(function(){
-    Route::get('/',[AppController::class,'index'])->name('app.index');
-    Route::post('/store-list',[AppController::class,'storeList'])->name('app.store-list');
-    Route::delete('/destroy-list/{list}',[AppController::class,'destroyList'])->name('app.destroy-list');
+Route::prefix('app')->middleware(['auth'])->group(function () {
+    Route::get('/', [AppController::class, 'index'])->name('app.index');
+    Route::post('/store-list', [AppController::class, 'storeList'])->name('app.store-list');
+    Route::delete('/destroy-list/{list}', [AppController::class, 'destroyList'])->name('app.destroy-list');
 
 
-    Route::prefix('lists')->group(function(){
-        Route::prefix('tasks')->group(function(){
-            Route::get('/',[AppTaskController::class,'index'])->name('app.lists.tasks.index');
+    Route::prefix('lists')->group(function () {
+        Route::prefix('tasks')->group(function () {
+            Route::get('/', [AppTaskController::class, 'index'])->name('app.lists.tasks.index');
+            Route::post('/store', [AppTaskController::class, 'store'])->name('app.lists.tasks.store');
+            Route::put('/update/{task}', [AppTaskController::class, 'update'])->name('app.lists.tasks.update');
+            Route::get('/change-status/{task}', [AppTaskController::class, 'changeStatus'])->name('app.lists.tasks.change-status');
         });
-        Route::get('show/{list}',[AppListController::class,'index'])->name('app.lists.index');
-        Route::put('/update/{list}',[AppListController::class,'update'])->name('app.lists.update');
-        Route::delete('/delete/{list}',[AppListController::class,'destroy'])->name('app.lists.destroy');
+        Route::get('/show/{list}', [AppListController::class, 'index'])->name('app.lists.show');
+        Route::put('/update/{list}', [AppListController::class, 'update'])->name('app.lists.update');
+        Route::delete('/delete/{list}', [AppListController::class, 'destroy'])->name('app.lists.destroy');
     });
 });
 
@@ -62,7 +65,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
 });
 
 
-Route::get('/z',function(){
+Route::get('/z', function () {
     Auth::logout();
 });
 require __DIR__ . '/auth.php';

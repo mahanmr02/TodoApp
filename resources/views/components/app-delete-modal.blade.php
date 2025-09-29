@@ -5,7 +5,7 @@
 <button
     type="button"
     class="text-red-300 hover:text-red-600 p-1 rounded-md transition duration-150"
-    onclick="openAppDeleteModal('{{ $route }}')"
+    onclick="event.stopPropagation(); openAppDeleteModal('{{ $route }}')"
     title="حذف"
 >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

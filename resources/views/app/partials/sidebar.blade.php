@@ -20,10 +20,11 @@
             </button>
             <ul class="submenu pl-5 mt-2 space-y-1">
                 @foreach ($todayLists as $list)
-                    <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg"><a
-                            href="{{ route('app.lists.index', $list) }}" class="block px-2 py-1">{{ $list->name }}</a>
-                        <x-app-delete-modal :route="route('app.destroy-list', $list)" />
-                    </li>
+                    <a href="{{ route('app.lists.show', $list) }}" class="block px-2 py-1">
+                        <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg">
+                            {{ $list->name }} <x-app-delete-modal :route="route('app.destroy-list', $list)" />
+                        </li>
+                    </a>
                 @endforeach
             </ul>
         </li>
@@ -37,10 +38,11 @@
                 </button>
                 <ul class="submenu hidden pl-5 mt-2 space-y-1">
                     @foreach ($thisWeekLists as $list)
-                        <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg"><a
-                                href="{{ route('app.lists.index', $list) }}"
-                                class="block px-2 py-1">{{ $list->name }}</a> <x-app-delete-modal :route="route('app.destroy-list', $list)" />
-                        </li>
+                        <a href="{{ route('app.lists.show', $list) }}" class="block px-2 py-1">
+                            <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg">
+                                {{ $list->name }} <x-app-delete-modal :route="route('app.destroy-list', $list)" />
+                            </li>
+                        </a>
                     @endforeach
                 </ul>
             </li>
@@ -52,20 +54,25 @@
                     class="sidebar-toggle flex justify-between items-center w-full p-3 rounded-xl hover:bg-indigo-50 text-gray-700 font-medium transition duration-150">
                     <span>این ماه (This Month)</span>
                     <span class="text-xs font-normal bg-gray-200 text-gray-700 rounded-full px-2 py-0.5"
-                        id="count-month-list">{{$thisMonthLists->count()}}</span>
+                        id="count-month-list">{{ $thisMonthLists->count() }}</span>
                 </button>
                 <ul class="submenu hidden pl-5 mt-2 space-y-1">
                     @foreach ($thisMonthLists as $list)
-                        <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg"><a
-                                href="{{ route('app.lists.index', $list) }}"
-                                class="block px-2 py-1">{{ $list->name }}</a> <x-app-delete-modal :route="route('app.destroy-list', $list)" />
+                        <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg">
+                            <div class="block w-full">
+                                <a href="{{ route('app.lists.show', $list) }}" class="block px-2 py-1">
+                                    {{ $list->name }}
+                                </a>
+                            </div>
+                            <x-app-delete-modal :route="route('app.destroy-list', $list)" />
                         </li>
                     @endforeach
                 </ul>
             </li>
         @endif
         <li class="text-sm text-purple-300">
-            <a href="{{route('app.lists.tasks.index')}}" class="block p-2 rounded-lg text-purple-300 hover:text-purple-500">مشاهده همه</a>
+            <a href="{{ route('app.lists.tasks.index') }}"
+                class="block p-2 rounded-lg text-purple-300 hover:text-purple-500">مشاهده همه</a>
         </li>
     </ul>
 </aside>

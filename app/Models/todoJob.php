@@ -27,6 +27,10 @@ class TodoJob extends Model
         });
     }
 
+    public function list(){
+        return $this->belongsTo(TodoList::class,'todo_list_id');
+    }
+
     public function getStatusConfigAttribute()
     {
         return [

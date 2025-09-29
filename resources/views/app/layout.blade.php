@@ -69,87 +69,13 @@
             </div>
         </div>
     </div>
+
+
+
+    @yield('script')
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.js"></script>
 
-    <div id="taskModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md">
-            <h3 class="text-lg font-bold mb-4">ایجاد تسک جدید</h3>
-            <form id="taskForm" action="#" method="POST">
-                @csrf
-                <input type="hidden" name="list_id" id="taskListId">
-                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div>
-                        <label for="list_name" class="block text-sm font-medium text-gray-700 text-right">
-                            عنوان تسک
-                        </label>
-                        <input type="text" name="name" id="list_name"
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right"
-                            value="">
-                    </div>
-                    <div>
-                        <label for="due_date" class="block text-sm font-medium text-gray-700 text-right">
-                            تاریخ سررسید
-                        </label>
-                        <input type="text" name="due_date" data-jdp
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right">
-                    </div>
-                </div>
-                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div>
-                        <label for="priority" class="block text-sm font-medium text-gray-700 text-right">
-                            میزان ارجحیت
-                        </label>
-                        <select name="priority" id="priority"
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right">
-                            <option value="low">پایین</option>
-                            <option value="medium">متوسط</option>
-                            <option value="high">بالا</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700 text-right">
-                            وضعیت
-                        </label>
-                        <select name="status" id="status"
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right">
-                            <option value="todo">مقرر شده</option>
-                            <option value="doing">در حال انجام</option>
-                            <option value="done">انجام شده</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mt-2">
-                    <label for="list_description" class="block text-sm font-medium text-gray-700 text-right">
-                        توضیحات تسک
-                    </label>
-                    <textarea name="description" id="" cols="30" rows="4"
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right"></textarea>
-                </div>
-                <div class="flex justify-end gap-2 mt-2">
-                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">ذخیره</button>
-                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border rounded">لغو</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <script type="text/javascript" src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
-
-    <script>
-        jalaliDatepicker.startWatch({
-            "time": true,
-            "hasSecond": false
-        });
-    </script>
-    <script>
-        function openTaskModal(listId) {
-            document.getElementById('taskListId').value = listId;
-            document.getElementById('taskModal').classList.remove('hidden');
-        }
-
-        function closeTaskModal() {
-            document.getElementById('taskModal').classList.add('hidden');
-        }
-    </script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const openSidebarButton = document.getElementById('open-sidebar');
@@ -190,7 +116,6 @@
         function toggleDropdown() {
             const isHidden = menu.classList.contains('hidden');
 
-            // نمایش با انیمیشن
             if (isHidden) {
                 menu.classList.remove('hidden');
                 setTimeout(() => {
@@ -198,11 +123,9 @@
                     menu.classList.add('scale-100', 'opacity-100');
                 }, 10);
             }
-            // پنهان کردن با انیمیشن
             else {
                 menu.classList.remove('scale-100', 'opacity-100');
                 menu.classList.add('scale-95', 'opacity-0');
-                // پنهان کردن واقعی بعد از اتمام انیمیشن
                 setTimeout(() => {
                     menu.classList.add('hidden');
                 }, 150);
@@ -222,7 +145,6 @@
             }
         });
 
-        // بستن با کلید Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
                 toggleDropdown();
@@ -230,10 +152,8 @@
         });
     </script>
     <script>
-        // --- JavaScript Logic for AJAX and UI ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Mock CSRF Token: در محیط Canvas، این متغیر ممکن است تعریف نشده باشد.
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content || 'mock-token';
             const addForm = document.getElementById('add-todo-form');
             const listContainers = document.querySelectorAll('.todo-list-section');
