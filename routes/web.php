@@ -29,6 +29,8 @@ Route::prefix('app')->middleware(['auth'])->group(function () {
             Route::post('/store', [AppTaskController::class, 'store'])->name('app.lists.tasks.store');
             Route::put('/update/{task}', [AppTaskController::class, 'update'])->name('app.lists.tasks.update');
             Route::get('/change-status/{task}', [AppTaskController::class, 'changeStatus'])->name('app.lists.tasks.change-status');
+            Route::delete('/delete/{task}', [AppTaskController::class, 'destroy'])->name('app.lists.tasks.destroy');
+
         });
         Route::get('/show/{list}', [AppListController::class, 'index'])->name('app.lists.show');
         Route::put('/update/{list}', [AppListController::class, 'update'])->name('app.lists.update');

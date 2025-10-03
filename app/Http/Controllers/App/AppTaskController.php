@@ -87,4 +87,12 @@ class AppTaskController extends Controller
         $task->update($inputs);
         return redirect()->back()->with('success','تسک با موفقیت ویرایش شد.');
     }
+
+    public function destroy(TodoJob $task){
+        if($task->list->user_id != auth()->id()){
+            return redirect()->back()->with('error','شما امکان حذف این تسک را ندارید.');
+        }
+        $task->delete();
+        return redirect()->back()->with('success','تسک با موفقیت حذف شد.');
+    }
 }

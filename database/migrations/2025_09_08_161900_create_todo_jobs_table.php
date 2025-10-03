@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('todo_category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
-            $table->text('description');
-            $table->enum('status',['todo','doing','done']);
+            $table->text('description')->nullable();
+            $table->enum('status',['todo','doing','done'])->default('todo');
             $table->enum('priority', ['low', 'medium', 'high'])->default('low');
             $table->timestamp('due_date')->nullable();
             $table->timestamps();

@@ -9,6 +9,11 @@ use App\Http\Controllers\Controller;
 class AppListController extends Controller
 {
 
+    public function index(TodoList $list){
+        $jobs = $list->jobs()->latest()->get();
+        return view('app.show',compact('list','jobs'));
+    }
+
     public function update(TodoList $list, Request $request){
         if($list->user_id != auth()->id()){
             return redirect()->back()->with('error','شما امکان ویرایش این فهرست را ندارید.');

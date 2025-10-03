@@ -20,11 +20,14 @@
             </button>
             <ul class="submenu pl-5 mt-2 space-y-1">
                 @foreach ($todayLists as $list)
-                    <a href="{{ route('app.lists.show', $list) }}" class="block px-2 py-1">
-                        <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg">
-                            {{ $list->name }} <x-app-delete-modal :route="route('app.destroy-list', $list)" />
-                        </li>
-                    </a>
+                <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg">
+                    <div class="block w-full">
+                        <a href="{{ route('app.lists.show', $list) }}" class="block px-2 py-1">
+                            {{ $list->name }}
+                        </a>
+                    </div>
+                    <x-app-delete-modal :route="route('app.destroy-list', $list)" />
+                </li>
                 @endforeach
             </ul>
         </li>
@@ -38,11 +41,14 @@
                 </button>
                 <ul class="submenu hidden pl-5 mt-2 space-y-1">
                     @foreach ($thisWeekLists as $list)
-                        <a href="{{ route('app.lists.show', $list) }}" class="block px-2 py-1">
-                            <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg">
-                                {{ $list->name }} <x-app-delete-modal :route="route('app.destroy-list', $list)" />
-                            </li>
-                        </a>
+                    <li class="flex text-xs mr-6 justify-between hover:bg-gray-100 p-2 rounded-lg">
+                        <div class="block w-full">
+                            <a href="{{ route('app.lists.show', $list) }}" class="block px-2 py-1">
+                                {{ $list->name }}
+                            </a>
+                        </div>
+                        <x-app-delete-modal :route="route('app.destroy-list', $list)" />
+                    </li>
                     @endforeach
                 </ul>
             </li>

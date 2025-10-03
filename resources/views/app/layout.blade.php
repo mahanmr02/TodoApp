@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="">
 
 <head>
     <meta charset="utf-8">
@@ -8,6 +8,15 @@
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+          darkMode: 'class',
+          plugins: [daisyui],
+          daisyui: {
+            themes: ["light", "dark"],
+          }
+        }
+      </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/app/styles.css') }}">
@@ -73,7 +82,6 @@
 
 
     @yield('script')
-
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.js"></script>
 
     <script>
@@ -122,8 +130,7 @@
                     menu.classList.remove('scale-95', 'opacity-0');
                     menu.classList.add('scale-100', 'opacity-100');
                 }, 10);
-            }
-            else {
+            } else {
                 menu.classList.remove('scale-100', 'opacity-100');
                 menu.classList.add('scale-95', 'opacity-0');
                 setTimeout(() => {
@@ -152,7 +159,24 @@
         });
     </script>
     <script>
+        if (localStorage.theme === 'dark' ||
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
 
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
+    </script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content || 'mock-token';
             const addForm = document.getElementById('add-todo-form');
