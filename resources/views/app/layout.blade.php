@@ -8,16 +8,49 @@
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-          darkMode: 'class',
-          plugins: [daisyui],
-          daisyui: {
-            themes: ["light", "dark"],
-          }
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'progress': 'progress 2s ease-in-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': {
+                                opacity: '0'
+                            },
+                            '100%': {
+                                opacity: '1'
+                            }
+                        },
+                        slideUp: {
+                            '0%': {
+                                transform: 'translateY(20px)',
+                                opacity: '0'
+                            },
+                            '100%': {
+                                transform: 'translateY(0)',
+                                opacity: '1'
+                            }
+                        },
+                        progress: {
+                            '0%': {
+                                width: '0%'
+                            },
+                            '100%': {
+                                width: 'var(--progress-width)'
+                            }
+                        }
+                    }
+                }
+            }
         }
-      </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    </script>
     <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/app/styles.css') }}">
 </head>
@@ -26,7 +59,7 @@
     @include('app.partials.sidebar')
     <div class="flex-1 flex flex-col overflow-hidden">
         @include('app.partials.header')
-        <main class="main-content flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <main class="main-content flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6 dark:bg-slate-800">
             @yield('content')
         </main>
     </div>
@@ -38,7 +71,7 @@
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
             <div
                 class="inline-block align-middle bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="bg-white dark:bg-slate-700 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div
                             class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -49,28 +82,28 @@
                             </svg>
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-200" id="modal-title">
                                 حذف آیتم
                             </h3>
                             <div class="mt-2">
-                                <p class="text-sm text-gray-500">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
                                     آیا از حذف این مورد اطمینان دارید؟ این عمل غیرقابل بازگشت است.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div class="bg-gray-50 dark:bg-slate-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <form id="app-delete-form" method="POST" action="">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mr-3 sm:w-auto sm:text-sm">
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 dark:bg-red-700 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mr-3 sm:w-auto sm:text-sm">
                             حذف
                         </button>
                     </form>
                     <button type="button"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-500 shadow-sm px-4 py-2 bg-white dark:bg-gray-500 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
                         onclick="closeAppDeleteModal()">
                         انصراف
                     </button>
@@ -83,7 +116,52 @@
 
     @yield('script')
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.js"></script>
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        }
 
+        // Initialize dark mode from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+
+            // Initialize skill bar animations
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const skillBars = entry.target.querySelectorAll('.progress-bar');
+                        skillBars.forEach(function(bar) {
+                            bar.style.animation = 'progress 2s ease-in-out forwards';
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            const skillsSection = document.querySelector('#skills');
+            if (skillsSection) {
+                observer.observe(skillsSection);
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const openSidebarButton = document.getElementById('open-sidebar');
@@ -158,23 +236,7 @@
             }
         });
     </script>
-    <script>
-        if (localStorage.theme === 'dark' ||
-            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
 
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-        });
-    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

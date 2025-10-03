@@ -11,11 +11,12 @@
     <div class="flex flex-col items-center justify-center">
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 w-full auto-rows-fr">
             @foreach ($lists as $list)
-                <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-3 hover:bg-gray-50 transition-all">
+                <div
+                    class="bg-gray-100 rounded-lg shadow-lg border border-gray-100 dark:border-indigo-300 p-3 dark:bg-slate-900 hover:bg-gray-50 dark:hover:bg-gray-950 transition-all">
                     <div class="flex justify-between border-b border-gray-300 py-2">
                         <div>
                             <a href="{{ route('app.lists.show', $list) }}">
-                                <h1 class="font-bold text-2xl">{{ $list->name }}</h1>
+                                <h1 class="font-bold text-2xl text-gray-900 dark:text-gray-300">{{ $list->name }}</h1>
                             </a>
                         </div>
                         <div x-data="{ open: false }" @click.outside="open = false" class="dropdown relative">
@@ -37,35 +38,36 @@
                                 </svg>
                             </label>
                             <div x-show="open"
-                                class="dropdown-content z-[1] menu p-1 shadow bg-base-300 rounded-box w-60 left-0 bg-white absolute mt-2"
+                                class="dropdown-content z-[1] menu p-1 shadow bg-base-300 rounded-box w-60 left-0 bg-white dark:bg-gray-800 absolute mt-2"
                                 x-transition:enter="transition ease-out duration-100"
                                 x-transition:enter-start="transform opacity-0 scale-95"
                                 x-transition:enter-end="transform opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="transform opacity-100 scale-100"
                                 x-transition:leave-end="transform opacity-0 scale-95">
-                                <div class="rounded-lg p-1 divide-y divide-neutral bg-white">
+                                <div class="rounded-lg p-1 divide-y divide-neutral bg-white dark:bg-gray-800">
                                     <div aria-label="navigation" class="py-2">
                                         <nav class="grid gap-2">
                                             <a href="#"
                                                 @click.prevent="$dispatch('open-modal', 'edit-list-{{ $list->id }}'); open = false;"
-                                                class="flex items-center leading-6 space-x-3 py-1 px-4 w-full text-lg text-gray-600 focus:outline-none hover:bg-gray-100 rounded-md gap-2">
+                                                class="flex items-center leading-6 space-x-3 py-1 px-4 w-full text-lg text-gray-600 focus:outline-none hover:bg-gray-100 dark:hover:bg-indigo-900 rounded-md gap-2">
                                                 <svg class="w-6 h-6 text-green-500" xmlns="http://www.w3.org/2000/svg"
                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
-                                                <span class="text-sm font-semibold">ویرایش نام لیست</span>
+                                                <span class="text-sm font-semibold dark:text-gray-200">ویرایش نام
+                                                    لیست</span>
                                             </a>
                                             <a href="#"
                                                 @click.prevent="$dispatch('open-modal', 'delete-list-{{ $list->id }}'); open = false;"
-                                                class="flex items-center leading-6 space-x-3 py-1 px-4 w-full text-lg text-gray-600 focus:outline-none hover:bg-gray-100 rounded-md gap-2">
+                                                class="flex items-center leading-6 space-x-3 py-1 px-4 w-full text-lg text-gray-600 focus:outline-none hover:bg-gray-100 dark:hover:bg-indigo-900 rounded-md gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500"
                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m-4-6h4" />
                                                 </svg>
-                                                <span class="text-sm font-semibold">حذف لیست</span>
+                                                <span class="text-sm font-semibold dark:text-gray-200">حذف لیست</span>
                                             </a>
                                         </nav>
                                     </div>
@@ -77,9 +79,9 @@
                     @if ($list->jobs->count() > 0)
                         @foreach ($list->jobs as $task)
                             <div class="flex my-1 p-2 cursor-pointer 
-                        @if ($task->priority == 'low') hover:bg-green-50 text-green-500 
-                        @elseif($task->priority == 'medium') hover:bg-yellow-50 text-yellow-500 
-                        @else hover:bg-red-50 text-red-500 @endif 
+                        @if ($task->priority == 'low') hover:bg-green-50 text-green-600 dark:hover:bg-green-600 dark:text-green-700
+                        @elseif($task->priority == 'medium') hover:bg-yellow-50 text-yellow-600 dark:hover:bg-yellow-600 dark:text-yellow-700
+                        @else hover:bg-red-50 text-red-600 dark:hover:bg-red-600 dark:text-red-700 @endif 
                         hover:bg-gray-100 rounded-lg justify-between items-center task-item"
                                 onclick="openEditModal({{ json_encode($task) }}, this)"
                                 data-jalali-due-date="{{ $task->due_date ? jalaliDate($task->due_date, 'Y/m/d H:i') : '' }}">
@@ -99,7 +101,7 @@
                                 </div>
 
                                 <div>
-                                    <span class="text-gray-300 text-xs italic">
+                                    <span class="text-gray-300 text-xs italic dark:text-gray-300">
                                         {{ $task->due_date ? 'تا ' . jalaliDate($task->due_date, 'd-m-Y H:i') : '-----' }}
                                     </span>
                                 </div>
@@ -153,31 +155,31 @@
                             <form action="{{ route('app.lists.update', $list) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-slate-700">
                                     <div class="sm:flex sm:items-start">
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-right w-full">
-                                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 mb-4">
                                                 ویرایش نام لیست: "{{ $list->name }}"
                                             </h3>
                                             <div class="mt-2">
                                                 <label for="list_name"
-                                                    class="block text-sm font-medium text-gray-700 text-right">
+                                                    class="block text-sm font-medium text-gray-700 dark:text-gray-200 text-right">
                                                     نام جدید لیست
                                                 </label>
                                                 <input type="text" name="name" id="list_name"
-                                                    class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right"
+                                                    class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-200 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-right"
                                                     value="{{ $list->name }}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2 dark:bg-gray-700">
                                     <button type="submit"
                                         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
                                         ذخیره تغییرات
                                     </button>
                                     <button type="button" @click="open = false"
-                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white dark:bg-gray-500 dark:border-gray-500 dark:text-gray-200 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
                                         لغو
                                     </button>
                                 </div>
@@ -209,7 +211,7 @@
                             <form action="{{ route('app.lists.destroy', $list) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-slate-700">
                                     <div class="sm:flex sm:items-start gap-2">
                                         <div
                                             class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -221,11 +223,11 @@
                                             </svg>
                                         </div>
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-right w-full">
-                                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
                                                 تایید حذف لیست
                                             </h3>
                                             <div class="mt-2">
-                                                <p class="text-sm text-gray-500">
+                                                <p class="text-sm text-gray-500 dark:text-gray-200">
                                                     آیا مطمئن هستید که می‌خواهید لیست "{{ $list->name }}" را برای همیشه
                                                     حذف کنید؟ این عمل غیرقابل بازگشت است و تمام تسک‌های آن نیز حذف خواهند
                                                     شد.
@@ -234,13 +236,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2 dark:bg-slate-800">
                                     <button type="submit"
-                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 dark:bg-red-700 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
                                         حذف کن
                                     </button>
                                     <button type="button" @click="open = false"
-                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white dark:bg-gray-500 dark:border-gray-500 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
                                         انصراف
                                     </button>
                                 </div>
@@ -254,7 +256,7 @@
             {{ $lists->links() }}
         </div>
 
-        <div class="block bg-white border shadow-teal-300 shadow-md max-w-full md:max-w-xl w-full p-6 rounded-lg mt-4">
+        <div class="block bg-white border shadow-indigo-300 dark:bg-gray-800 dark:shadow-indigo-700 dark:border-gray-800 shadow-md max-w-full md:max-w-xl w-full p-6 rounded-lg mt-4">
             <h1
                 class="text-4xl text-center font-extrabold py-3 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-blue-500">
                 + ایجاد فهرست جدید
@@ -265,9 +267,9 @@
                 <div class="flex group gap-2">
                     @csrf
                     <input id="" name="name" type="text" placeholder="ایجاد فهرست برای تسک هات..."
-                        class="flex-1 px-4 py-3 rounded-r-lg bg-gray-100  border border-gray-300 focus:outline-none focus:border-neon-purple focus:ring-1 focus:ring-neon-purple transition-all duration-300 group-hover:shadow-neon-sm">
+                        class="flex-1 px-4 py-3 rounded-r-lg bg-gray-100   border border-gray-300 dark:bg-gray-600 dark:border-gray-700 dark:text-gray-200 focus:outline-none focus:border-neon-purple focus:ring-1 focus:ring-neon-purple transition-all duration-300 group-hover:shadow-neon-sm">
                     <button type="submit" id=""
-                        class="text-white px-5 rounded-l-lg text-lg text-center font-extrabold py-3 bg-gradient-to-r from-pink-500 to-blue-500">
+                        class="text-white dark:text-gray-300 px-5 rounded-l-lg text-lg text-center font-extrabold py-3 bg-gradient-to-r from-pink-500 to-blue-500 dark:from-pink-800 dark:to-blue-800">
                         ایجاد
                     </button>
                 </div>
@@ -277,12 +279,12 @@
             </form>
 
             <!-- Stats -->
-            <div class="mt-6 p-4 rounded-lg bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300">
+            <div class="mt-6 p-4 rounded-lg bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-600 dark:to-gray-700 border border-gray-300 dark:border-gray-700">
                 <div class="flex justify-center text-sm">
                     <div class="text-center">
                         <div id="totalCount" class="text-2xl font-bold text-purple-400">
                             {{ auth()->user()->lists()->count() }}</div>
-                        <div class="text-gray-500 ">تعداد فهرست های شما</div>
+                        <div class="text-gray-500 dark:text-gray-300">تعداد فهرست های شما</div>
                     </div>
                 </div>
             </div>
@@ -292,8 +294,8 @@
 
 
     <div id="taskModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md">
-            <h3 id="taskModalTitle" class="text-lg font-bold mb-4">ایجاد تسک جدید</h3>
+        <div class="bg-white p-6 rounded-lg w-full max-w-md dark:bg-slate-800">
+            <h3 id="taskModalTitle" class="text-lg font-bold mb-4 dark:text-gray-300">ایجاد تسک جدید</h3>
 
             <form id="taskForm" method="POST">
                 @csrf
@@ -302,51 +304,51 @@
 
                 <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 text-right">
+                        <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">
                             عنوان تسک <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="title" id="task_title"
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                            class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 text-right">تاریخ سررسید</label>
+                        <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">تاریخ سررسید</label>
                         <input type="text" name="due_date" id="task_due_date" data-jdp value=""
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                            class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
                     </div>
                 </div>
 
                 <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 text-right">میزان ارجحیت <span
+                        <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">میزان ارجحیت <span
                                 class="text-red-500">*</span></label>
                         <select name="priority" id="task_priority"
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
-                            <option class="text-green-600 bg-green-100" value="low">پایین</option>
-                            <option class="text-yellow-600 bg-yellow-100" value="medium">متوسط</option>
-                            <option class="text-red-600 bg-red-100" value="high">بالا</option>
+                            class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300 border border-gray-300 dark:border-gray-600 outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                            <option class="text-green-600 bg-green-100 dark:text-green-900 dark:bg-green-400" value="low">پایین</option>
+                            <option class="text-yellow-600 bg-yellow-100 dark:text-yellow-900 dark:bg-yellow-400" value="medium">متوسط</option>
+                            <option class="text-red-600 bg-red-100  dark:text-red-900 dark:bg-red-400" value="high">بالا</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 text-right">وضعیت <span
+                        <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">وضعیت <span
                                 class="text-red-500">*</span></label>
                         <select name="status" id="task_status"
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
-                            <option value="todo">مقرر شده</option>
-                            <option class="text-yellow-600 bg-yellow-100" value="doing">در حال انجام</option>
-                            <option class="text-green-600 bg-green-100" value="done">انجام شده</option>
+                            class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300 border border-gray-300 dark:border-gray-600 outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                            <option class="text-gray-600 bg-gray-100 dark:text-gray-900 dark:bg-gray-400" value="todo">مقرر شده</option>
+                            <option class="text-yellow-600 bg-yellow-100 dark:text-yellow-900 dark:bg-yellow-400" value="doing">در حال انجام</option>
+                            <option class="text-green-600 bg-green-100 dark:text-green-900 dark:bg-green-400" value="done">انجام شده</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="mt-2">
-                    <label class="block text-sm font-medium text-gray-700 text-right">توضیحات تسک</label>
+                    <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">توضیحات تسک</label>
                     <textarea name="description" id="task_description" cols="30" rows="4"
-                        class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right"></textarea>
+                        class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right"></textarea>
                 </div>
 
                 <div class="flex justify-end gap-2 mt-2">
-                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">ذخیره</button>
-                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border rounded">لغو</button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded dark:border-gray-500">ذخیره</button>
+                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border rounded dark:border-gray-500 dark:text-gray-300">لغو</button>
                 </div>
             </form>
         </div>

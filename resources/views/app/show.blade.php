@@ -13,9 +13,9 @@
         $currentDateGroup = null;
     @endphp
 
-    <div class="flex flex-col items-center justify-center pt-6 p-4 sm:p-6 min-h-screen">
-        <div class="w-full  rounded-xl p-6 md:p-8">
-            <h1 class="text-3xl font-extrabold text-gray-800 mb-8 text-center border-b pb-3">
+    <div class="flex flex-col items-center justify-center min-h-screen">
+        <div class="w-full  rounded-xl px-6 md:px-8">
+            <h1 class="text-3xl font-extrabold text-gray-800 dark:text-gray-300 mb-8 text-center border-b pb-3">
                 لیست کارهای من
             </h1>
             <div
@@ -36,16 +36,16 @@
                             @php
                                 $currentDateGroup = $taskDate;
                             @endphp
-                            <h2 class="text-xl text-indigo-700 pt-8 pb-3 mt-4 border-b-2 border-indigo-200">
+                            <h2 class="text-xl text-indigo-700 dark:text-indigo-400 pt-8 pb-3 mt-4 border-b-2 border-indigo-200">
                                 {{ $displayDate }}
                             </h2>
                         @endif
 
 
 
-                        <div class="flex items-center justify-between py-4 transition duration-200 hover:bg-gray-50 cursor-pointer @if ($task->priority == 'low') hover:bg-green-50 text-green-500
-                            @elseif($task->priority == 'medium') hover:bg-yellow-50 text-yellow-500
-                            @else hover:bg-red-50 text-red-500 @endif  {{ $loop->last ? '' : 'border-b border-gray-100' }}"
+                        <div class="flex items-center justify-between py-4 transition duration-200 hover:bg-green-50 dark:hover:bg-gray-700 cursor-pointer @if ($task->priority == 'low') hover:bg-green-50 dark:hoverbg-gray-600 text-green-500 dark:text-green-600
+                            @elseif($task->priority == 'medium') hover:bg-yellow-50 dark:hover:bg-gray-600 text-yellow-500 dark:text-yellow-600
+                            @else hover:bg-red-50 dark:hovbg-gray-600 text-red-500 dark:text-red-600 @endif  {{ $loop->last ? '' : 'border-b-2 border-indigo-200' }}"
                             onclick="openEditModal({{ json_encode($task) }}, this)"
                             data-jalali-due-date="{{ $task->due_date ? jalaliDate($task->due_date, 'Y/m/d H:i') : '' }}">
 
@@ -107,61 +107,61 @@
         </div>
 
         <div id="taskModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
-            <div class="bg-white p-6 rounded-lg w-full max-w-md">
-                <h3 id="taskModalTitle" class="text-lg font-bold mb-4">ایجاد تسک جدید</h3>
-
+            <div class="bg-white p-6 rounded-lg w-full max-w-md dark:bg-slate-800">
+                <h3 id="taskModalTitle" class="text-lg font-bold mb-4 dark:text-gray-300">ایجاد تسک جدید</h3>
+    
                 <form id="taskForm" method="POST">
                     @csrf
                     <input type="hidden" name="todo_list_id" id="taskListId">
                     <div id="formMethod"></div>
-
+    
                     <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 text-right">
+                            <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">
                                 عنوان تسک <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="title" id="task_title"
-                                class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                                class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 dark:outline-nonedark:outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 text-right">تاریخ سررسید</label>
+                            <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">تاریخ سررسید</label>
                             <input type="text" name="due_date" id="task_due_date" data-jdp value=""
-                                class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                                class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 dark:outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
                         </div>
                     </div>
-
+    
                     <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 text-right">میزان ارجحیت <span
+                            <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">میزان ارجحیت <span
                                     class="text-red-500">*</span></label>
                             <select name="priority" id="task_priority"
-                                class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                                class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 dark:outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
                                 <option class="text-green-600 bg-green-100" value="low">پایین</option>
                                 <option class="text-yellow-600 bg-yellow-100" value="medium">متوسط</option>
                                 <option class="text-red-600 bg-red-100" value="high">بالا</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 text-right">وضعیت <span
+                            <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">وضعیت <span
                                     class="text-red-500">*</span></label>
                             <select name="status" id="task_status"
-                                class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
+                                class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 dark:outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right">
                                 <option value="todo">مقرر شده</option>
                                 <option class="text-yellow-600 bg-yellow-100" value="doing">در حال انجام</option>
                                 <option class="text-green-600 bg-green-100" value="done">انجام شده</option>
                             </select>
                         </div>
                     </div>
-
+    
                     <div class="mt-2">
-                        <label class="block text-sm font-medium text-gray-700 text-right">توضیحات تسک</label>
+                        <label class="block text-sm font-medium text-gray-700 text-right dark:text-gray-300">توضیحات تسک</label>
                         <textarea name="description" id="task_description" cols="30" rows="4"
-                            class="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm text-right"></textarea>
+                            class="mt-1 block w-full bg-gray-100 dark:bg-gray-500 dark:text-gray-300  border border-gray-300 dark:border-gray-600 dark:outline-none rounded-md shadow-sm py-2 px-3 sm:text-sm text-right"></textarea>
                     </div>
-
+    
                     <div class="flex justify-end gap-2 mt-2">
-                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">ذخیره</button>
-                        <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border rounded">لغو</button>
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded dark:border-gray-500">ذخیره</button>
+                        <button type="button" onclick="closeTaskModal()" class="px-4 py-2 border rounded dark:border-gray-500 dark:text-gray-300">لغو</button>
                     </div>
                 </form>
             </div>

@@ -35,7 +35,7 @@ class TodoJob extends Model
     {
         return [
             'todo' => [
-                'color' => 'text-gray-400 hover:text-gray-500',
+                'color' => 'text-gray-400 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400',
                 'label' => 'مقرر شده',
                 'icon' => '
                                     <svg class="w-6 h-6" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ class TodoJob extends Model
                                 ',
             ],
             'doing' => [
-                'color' => 'text-yellow-400 hover:text-yellow-500',
+                'color' => 'text-yellow-400 hover:text-yellow-500 hover:text-yellow-300 dark:hover:text-yellow-400',
                 'label' => 'در حال انجام',
                 'icon' => '
                                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +73,7 @@ class TodoJob extends Model
                                 ',
             ],
             'done' => [
-                'color' => 'text-green-400 hover:text-green-500',
+                'color' => 'text-green-400 hover:text-green-500 dark:text-green-300 dark:hover:text-green-400',
                 'label' => 'انجام شده',
                 'icon' => '
                                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

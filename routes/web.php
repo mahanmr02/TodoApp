@@ -17,7 +17,7 @@ use App\Http\Controllers\AdminPanel\DashboardController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/send-message', [HomeController::class, 'sendMessage'])->name('home.send-message');
 
-Route::prefix('app')->middleware(['auth'])->group(function () {
+Route::prefix('app')->middleware(['auth','verified'])->group(function () {
     Route::get('/', [AppController::class, 'index'])->name('app.index');
     Route::post('/store-list', [AppController::class, 'storeList'])->name('app.store-list');
     Route::delete('/destroy-list/{list}', [AppController::class, 'destroyList'])->name('app.destroy-list');
@@ -38,7 +38,7 @@ Route::prefix('app')->middleware(['auth'])->group(function () {
     });
 });
 
-Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'is_admin', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::prefix('lists')->group(function () {

@@ -37,6 +37,7 @@
                         <tr class="bg-gray-200 text-gray-700 uppercase text-xs leading-normal">
                             <th class="py-3 px-6 text-center">#</th>
                             <th class="py-3 px-6 text-center">نام فهرست‌</th>
+                            <th class="py-3 px-6 text-center">تعداد تسک ها</th>
                             <th class="py-3 px-6 text-center">نام ایجاد کننده</th>
                             <th class="py-3 px-6 text-center">تاریخ ایجاد</th>
                             <th class="py-3 px-6 text-center">عملیات</th>
@@ -48,6 +49,7 @@
                                 <tr class="border-b hover:bg-gray-50">
                                     <td class="py-3 px-6 text-center">{{ $key + 1 }}</td>
                                     <td class="py-3 px-6 text-center">{{ $todoList->name }}</td>
+                                    <td class="py-3 px-6 text-center">{{ $todoList->jobs()->count() > 0 ? $todoList->jobs()->count() : '0' }}</td>
                                     <td class="py-3 px-6 text-center">
                                         {{ $todoList->user ? $todoList->user->name : 'کاربر یافت نشد' }}</td>
                                     <td class="py-3 px-6 text-center">{{ jalaliDate($todoList->created_at) }}</td>
